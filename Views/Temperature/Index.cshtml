@@ -1,0 +1,297 @@
+﻿@model TemperatureModels
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.js"></script>
+</head>
+<body>
+    <div>
+        <div>
+            @*<div id="temperature-chart"></div>*@
+
+            @*@section scripts {*@
+
+                @* show all data
+            <script>
+            // create a new ApexCharts instance
+            var chart = new ApexCharts(document.querySelector("#temperature-chart"), {
+            chart: {
+            type: 'line',
+            height: 350
+            },
+            series: [
+            {
+            name: 'Ambient Temperature',
+            data: @Html.Raw(Json.Serialize(Model.AmbentTemperature1))
+            },
+            {
+            name: 'Module Temperature',
+            data: @Html.Raw(Json.Serialize(Model.ModuleTemperature1))
+            }
+            ],
+            xaxis: {
+            categories: @Html.Raw(Json.Serialize(Model.Time))
+            },
+            yaxis: {
+            title: {
+            text: 'Temperature'
+            }
+            }
+            });
+
+            // render the chart
+            chart.render();
+            </script>
+            *@
+
+                @*show last 5 data*@
+
+                @*<script>
+            var categories = @Html.Raw(Json.Serialize(Model.Time.TakeLast(5)));
+            var ambientData = @Html.Raw(Json.Serialize(Model.AmbentTemperature1.TakeLast(5)));
+            var moduleData = @Html.Raw(Json.Serialize(Model.ModuleTemperature1.TakeLast(5)));
+
+            // create a new ApexCharts instance
+            var chart = new ApexCharts(document.querySelector("#temperature-chart"), {
+            chart: {
+            type: 'boxPlot',
+            height: 350
+            },
+            series: [
+            {
+            name: 'Ambient Temperature',
+            data: ambientData
+            },
+            {
+            name: 'Module Temperature',
+            data: moduleData
+            }
+            ],
+            xaxis: {
+            categories: categories
+            },
+            yaxis: {
+            title: {
+            text: 'Temperature'
+            }
+            }
+            });
+
+            // render the chart
+            chart.render();
+            </script>*@
+
+                @*Overlap charts line and bar*@
+
+                @*<script>
+            // create a new ApexCharts instance
+            var chart = new ApexCharts(document.querySelector("#temperature-chart"), {
+            chart: {
+            type: 'line',
+            height: 350
+            },
+            series: [
+            {
+            name: 'Ambient Temperature',
+            data: @Html.Raw(Json.Serialize(Model.AmbentTemperature1)),
+            type: 'column',
+            color: '#008FFB',
+            fill: {
+            type: 'gradient',
+            gradient: {
+            shade: 'light',
+            type: 'vertical',
+            shadeIntensity: 0.7,
+            gradientToColors: ['#00E396'],
+            inverseColors: false,
+            opacityFrom: 0.7,
+            opacityTo: 0.3,
+            stops: [0, 100]
+            }
+            }
+            },
+            {
+            name: 'Module Temperature',
+            data: @Html.Raw(Json.Serialize(Model.ModuleTemperature1)),
+            type: 'column',
+            color: '#FF4560'
+            }
+            ],
+            xaxis: {
+            categories: @Html.Raw(Json.Serialize(Model.Time))
+            },
+            yaxis: [
+            {
+            title: {
+            text: 'Temperature'
+            }
+            },
+            {
+            opposite: true,
+            title: {
+            text: 'Temperature'
+            }
+            }
+            ]
+            });
+
+            // render the chart
+            chart.render();
+            </script>*@
+
+                @*Overlap charts line and bar*@
+            @*}*@
+        </div>
+        <div>
+            <div id="temperature-chart"></div>
+
+            @section scripts {
+
+                show all data
+                <script>
+                    // create a new ApexCharts instance
+                    var chart = new ApexCharts(document.querySelector("#temperature-chart"), {
+                        chart: {
+                            type: 'line',
+                            height: 350
+                        },
+                        series: [
+                            {
+                                name: 'Ambient Temperature',
+                                data: @Html.Raw(Json.Serialize(Model.AmbentTemperature1))
+                                },
+                            {
+                                name: 'Module Temperature',
+                                data: @Html.Raw(Json.Serialize(Model.ModuleTemperature1))
+                                }
+                        ],
+                        xaxis: {
+                            categories: @Html.Raw(Json.Serialize(Model.Time))
+                                },
+                        yaxis: {
+                            title: {
+                                text: 'Temperature'
+                            }
+                        }
+                    });
+
+                    // render the chart
+                    chart.render();
+                </script>
+            }
+        </div>
+        <div>
+            <div class="tbl-scroll fixTbl-head">
+                <table class="table table-striped border">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Ambent Temperature</th>
+                            <th>Module Temperature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Time.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.Time[i]</td>
+                                <td>@Model.AmbentTemperature1[i]</td>
+                                <td>@Model.ModuleTemperature1[i]</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+@*chatr js chart*@
+@*<div>
+
+    <canvas id="myChart" style="max-height:350px; max-width:100%"></canvas>
+
+    @section scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.7.7/chartjs-plugin-zoom.min.js"></script>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.Time)),
+                    datasets: [
+                        {
+                            label: 'Ambient Temperature',
+                            data: @Html.Raw(Json.Serialize(Model.AmbentTemperature1)),
+                            backgroundColor: 'rgba(58, 96, 246, 0.7)',
+                            borderColor: 'rgba(60, 56, 246, .1)',
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'Module Temperature',
+                            data: @Html.Raw(Json.Serialize(Model.ModuleTemperature1)),
+                            backgroundColor: 'rgba(246, 58, 96, 0.7)',
+                            borderColor: 'rgba(246, 60, 56, .1)',
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                maxTicksLimit: 20
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'DateTime'
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 100,
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Temperature In Celcius'
+                            }
+                        }]
+                    },
+                    plugins: {
+                        zoom: {
+                            zoom: {
+                                enabled: true,
+                                mode: 'x'
+                            },
+                            pan: {
+                                enabled: true,
+                                mode: 'x'
+                            }
+                        }
+                    }
+                }
+            });
+
+        </script>
+    }
+
+
+</div>*@

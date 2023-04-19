@@ -1,0 +1,29 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.tbl-scroll {
+    display: block;
+    max-height: 450px;
+    overflow-y: scroll;
+    text-align: center;
+}
+.fixTbl-head thead th {
+    position: sticky;
+    top: 0;
+    background-color:deepskyblue;
+}
